@@ -1,5 +1,9 @@
 {
+  "name": "next-reviews",
+  "private": true,
   "scripts": {
+    "build": "next build",
+    "start": "next start",
     "dev": "next dev"
   },
 
