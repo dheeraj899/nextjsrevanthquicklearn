@@ -1,8 +1,12 @@
+import Heading from '../../../components/Heading';
+
 export default function HollowKnightPage() {
-    return (
-      <>
-        <h1>Hollow Knight</h1>
-        <p>[Placeholder for review content]</p>
-      </>
-    );
-  }
+  return (
+    <>
+      <Heading>Hollow Knight</Heading>
+      <p>
+        This will be the review for Hollow Knight.
+      </p>
+    </>
+  );
+}

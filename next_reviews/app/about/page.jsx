@@ -1,8 +1,13 @@
+// app/about/page.jsx
+import Heading from '../../components/Heading';
+
 export default function AboutPage() {
-    return (
-      <>
-        <h1>About</h1>
-        <p>Here is  About company.</p>
-      </>
-    );
-  }
+  return (
+    <>
+      <Heading>About</Heading>
+      <p>
+        A website created to learn Next.js.
+      </p>
+    </>
+  );
+}
