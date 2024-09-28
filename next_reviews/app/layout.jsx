@@ -1,8 +1,6 @@
-
-import './globals.css';
-
 import Link from 'next/link';
-
+import './globals.css';
+import ExampleComponent from './components/ExampleComponent';  // Import ExampleComponent
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -16,7 +14,15 @@ export default function RootLayout({ children }) {
             </ul>
           </nav>
         </header>
+        {/* ExampleComponent can be rendered here */}
+        <ExampleComponent />
         <main>{children}</main>
+        <footer>
+          Game data and images courtesy of{' '}
+          <a href="https://rawg.io/" target="_blank" rel="noopener noreferrer">
+            RAWG
+          </a>
+        </footer>
       </body>
     </html>
   );
