@@ -1,3 +1,6 @@
+
+import './globals.css';
+
 import Link from 'next/link';
 
 export default function RootLayout({ children }) {
@@ -14,9 +17,6 @@ export default function RootLayout({ children }) {
           </nav>
         </header>
         <main>{children}</main>
-        <footer>
-          Quick Learn Blogs by <a href="https://www.revanthquicklearn.com/" target="_blank" rel="noopener noreferrer">Revanth</a>
-        </footer>
       </body>
     </html>
   );
