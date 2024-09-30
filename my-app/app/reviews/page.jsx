@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import Heading from '../../components/Heading';
+import Heading from '@/components/Heading';
+
 import styles from './Reviews.module.css';
 export default function ReviewsPage() {
   return (

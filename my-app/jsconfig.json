@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": "app",  // Set the base URL to the "app" folder
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./*"]    // Map "@" to the root of the "app" folder
     }
-  }
+  },
+  "include": ["app/**/*"]  // Include everything inside the "app" folder
 }

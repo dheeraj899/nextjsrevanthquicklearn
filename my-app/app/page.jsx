@@ -1,6 +1,5 @@
-import ExampleComponent from './components/ExampleComponent';
-import Heading from './components/Heading'; // Adjust path if needed
-
+import ExampleComponent from '@/components/ExampleComponent';
+import Heading from '@/components/Heading'; // Adjust path if needed
 export default function HomePage() {
   return (
     <>
