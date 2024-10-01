@@ -1,13 +1,8 @@
-// app/page.jsx
-import Heading from '../components/Heading';
-
-export default function HomePage() {
+// components/Heading.jsx
+export default function Heading({ children }) {
   return (
-    <>
-      <Heading>Indie Gamer</Heading>
-      <p>
-        Only the best indie games, reviewed for you.
-      </p>
-    </>
+    <h1 className="font-bold text-2xl pb-3">
+      {children}
+    </h1>
   );
 }

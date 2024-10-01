@@ -1,5 +1,5 @@
-import Heading from '../../../components/Heading';
-
+//import Heading from '@/components/Heading';
+import Heading from "@/app/components/Heading";
 export default function StardewValleyPage() {
   return (
     <>
