@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.15",
     "marked": "^14.1.2",
     "next": "^14.2.13",
     "react": "^18.3.1",
@@ -19,6 +20,6 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.13",
     "postcss": "^8.3.6",
-    "tailwindcss": "^2.2.19"
+    "tailwindcss": "^3.4.13"
   }
 }

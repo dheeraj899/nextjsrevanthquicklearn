@@ -4,7 +4,7 @@ module.exports = {
     './pages/**/*.{js,jsx,ts,tsx}',
     './components/**/*.{js,jsx,ts,tsx}',
   ],
-    theme: {
+  theme: {
     extend: {
       fontFamily: {
         sans: ['var(--font-exo2)', 'sans-serif'],
@@ -12,5 +12,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'), // Add the typography plugin here
+  ],
 };
