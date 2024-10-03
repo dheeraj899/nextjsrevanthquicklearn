@@ -2,10 +2,12 @@ import { readFile } from 'node:fs/promises';
 import { marked } from 'marked';
 import Heading from '@/components/Heading';
 import path from 'path';
+import matter from 'gray-matter';
 export default async function StardewValleyPage() {
   const filePath = path.join(process.cwd(), 'app', 'reviews', 'stardew-valley', 'stardew-valley.md'); // Updated path
   const text = await readFile(filePath, 'utf8');
   const html = marked(text, { mangle: false, headerIds: false }); // Disable deprecated options
+  const { content, data: { title, date, image } } = matter(text);
   return (
     <>
       <Heading>Stardew Valley</Heading>
