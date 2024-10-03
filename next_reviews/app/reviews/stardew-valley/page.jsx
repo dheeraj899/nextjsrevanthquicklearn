@@ -10,7 +10,7 @@ export default async function StardewValleyPage() {
     <>
       <Heading>Stardew Valley</Heading>
       <img src="/images/stardew-valley.jpg" alt="Stardew Valley" width="640" height="360" className="mb-2 rounded" />
-      <article className="prose" dangerouslySetInnerHTML={{ __html: html }} />
+      <article className="prose prose-slate max-w-screen-sm" dangerouslySetInnerHTML={{ __html: html }} />
     </>
   );
 }

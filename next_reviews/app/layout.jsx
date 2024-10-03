@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
         <main className="grow py-3">
           {children}
         </main>
-        <footer className="border-t py-3 text-center text-xs">
+        <footer className="border-t py-3 text-center  text-slate-500 text-xs">
           Quick Learn Blogs by <a href="https://www.revanthquicklearn.com/" target="_blank" className="text-orange-800 hover:underline">
             Revanth
           </a>
