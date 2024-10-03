@@ -7,6 +7,7 @@
     "dev": "next dev"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.15",
     "marked": "^14.1.2",
     "next": "^14.2.13",
     "react": "^18.3.1",
