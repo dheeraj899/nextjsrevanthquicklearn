@@ -1,5 +1,6 @@
 // app/reviews/stardew-valley/page.jsx
 import { readFile } from 'node:fs/promises';
+import matter from 'gray-matter';
 import { marked } from 'marked';
 import Heading from '@/components/Heading';
 import path from 'path';
@@ -7,6 +8,7 @@ import path from 'path';
 export default async function StardewValleyPage() {
   const filePath = path.join(process.cwd(), 'app', 'reviews', 'stardew-valley', 'stardew-valley.md'); // Updated path
   const text = await readFile(filePath, 'utf8');
+  const { content, data: { title, date, image } } = matter(text);
   const html = marked(text, { mangle: false, headerIds: false }); // Disable deprecated options
 
   return (
