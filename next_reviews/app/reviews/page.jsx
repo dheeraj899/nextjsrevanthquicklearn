@@ -1,34 +1,29 @@
 import Link from 'next/link';
-export default function ReviewsPage() {
+import Heading from '@/components/Heading';
+import { getReviews } from '@/lib/reviews';
+
+export default async function ReviewsPage() {
+  const reviews = await getReviews();
+  console.log('[ReviewsPage] reviews:', reviews);
+  
   return (
-    <div className="flex flex-col gap-4">
-      <Link href="/reviews/hollow-knight" className="block">
-        <img src="/images/hollow-knight.jpg" alt="Hollow Knight" width="320" height="180" className="rounded-t" />
-        <h2 className="font-orbitron font-semibold py-1 text-center">
-          Hollow Knight
-        </h2>
-        <p className="text-justify">
-          The Hollow Knight is an incredible game that takes you on a journey through a beautifully crafted world...
-        </p>
-      </Link>
-      <Link href="/reviews/stardew-valley" className="block">
-        <img src="/images/stardew-valley.jpg" alt="Stardew Valley" width="320" height="180" className="rounded-t" />
-        <h2 className="font-orbitron font-semibold py-1 text-center">
-          Stardew Valley
-        </h2>
-        <p className="text-justify">
-          Stardew Valley is a charming farming simulation game that allows you to build and manage your own farm...
-        </p>
-      </Link>
-      <Link href="/reviews/hellblade " className="block">
-        <img src="/images/hellblade .jpg" alt="hellblade " width="320" height="180" className="rounded-t" />
-        <h2 className="font-orbitron font-semibold py-1 text-center">
-          Stardew Valley
-        </h2>
-        <p className="text-justify">
-        hellblade  is a  game 
-        </p>
-      </Link>
-    </div>
+    <>
+      <Heading>Reviews</Heading>
+      <ul className="flex flex-row flex-wrap gap-3">
+        {reviews.map((review) => (
+          <li key={review.slug}
+            className="bg-white border rounded shadow w-80 hover:shadow-xl">
+            <Link href={`/reviews/${review.slug}`}>
+              <img src={review.image} alt=""
+                width="320" height="180" className="rounded-t"
+              />
+              <h2 className="font-orbitron font-semibold py-1 text-center">
+                {review.title}
+              </h2>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
