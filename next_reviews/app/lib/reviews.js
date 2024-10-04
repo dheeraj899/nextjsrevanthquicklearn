@@ -1,11 +1,61 @@
-//`E:\nextjsrevanthquicklearn\next_reviews\app\reviews
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import matter from 'gray-matter';
 import { marked } from 'marked';
+
 export async function getReview(slug) {
-  const filePath = `./app/Content/reviews/${slug}.md`; // Update path to match your file location
-  const text = await readFile(filePath, 'utf8');
+  const text = await readFile(`./app/content/reviews/${slug}.md`, 'utf8');
   const { content, data: { title, date, image } } = matter(text);
   const body = marked(content);
-  return { title, date, image, body };
+  return { slug, title, date, image, body };
 }
+
+export async function getReviews() {
+  const files = await readdir('./app/content/reviews');
+  const slugs = files.filter((file) => file.endsWith('.md'))
+    .map((file) => file.slice(0, -'.md'.length));
+  const reviews = [];
+  for (const slug of slugs) {
+    const review = await getReview(slug);
+    reviews.push(review);
+  }
+  return reviews;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// //`E:\nextjsrevanthquicklearn\next_reviews\app\reviews
+// import { readFile } from 'node:fs/promises';
+// import matter from 'gray-matter';
+// import { marked } from 'marked';
+// export async function getReview(slug) {
+//   const filePath = `./app/Content/reviews/${slug}.md`; // Update path to match your file location
+//   const text = await readFile(filePath, 'utf8');
+//   const { content, data: { title, date, image } } = matter(text);
+//   const body = marked(content);
+//   return { title, date, image, body };
+// }

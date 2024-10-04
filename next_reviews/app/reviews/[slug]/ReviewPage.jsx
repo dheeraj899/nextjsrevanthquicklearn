@@ -1,14 +1,33 @@
+import Link from 'next/link';
+import Image from 'next/image';
 import Heading from '@/components/Heading';
-import { getReview } from '@/lib/reviews';
+import { getReviews } from '@/lib/reviews';
 
-export default async function ReviewPage({ params: { slug } }) {
-  const review = await getReview(slug);
+export default async function ReviewsPage() {
+  const reviews = await getReviews();  // Dynamically fetch reviews
+  console.log('[ReviewsPage] reviews:', reviews);
+
   return (
     <>
-      <Heading>{review.title}</Heading>
-      <p className="italic pb-2">{review.date}</p>
-      <img src={review.image} alt={review.title} width="640" height="360" className="mb-2 rounded" />
-      <article dangerouslySetInnerHTML={{ __html: review.body }} className="prose prose-slate max-w-screen-sm" />
+      <Heading>Reviews</Heading>
+      <ul className="flex flex-col gap-3">
+        {reviews.map((review) => (
+          <li key={review.slug} className="bg-white border rounded shadow w-80 hover:shadow-xl">
+            <Link href={`/reviews/${review.slug}`}>
+              <Image 
+                src={`/images/${review.slug}.jpg`}  // Dynamic image loading based on slug
+                alt={review.title}
+                width={320}
+                height={180}
+                className="rounded-t"
+              />
+              <h2 className="font-orbitron font-semibold py-1 text-center">
+                {review.title}
+              </h2>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }
