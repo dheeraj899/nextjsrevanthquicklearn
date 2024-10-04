@@ -1,20 +1,24 @@
-import Heading from '@/components/Heading';
-import { getReview } from '@/lib/reviews';
+import { getReview } from '@/lib/reviews'; // Correct path for your setup
+import Image from 'next/image';
 
-export default async function ReviewPage({ params: { slug } }) {
-  const review = await getReview(slug);
+export default async function ReviewPage({ slug }) {
+  const review = await getReview(slug); // Fetch review based on slug
 
   if (!review) {
-    // Handle the case when the review is not found
-    return <p>Review not found</p>;
+    return <p>Review not found!</p>; // Handle missing reviews
   }
 
   return (
-    <>
-      <Heading>{review.title}</Heading>
-      <p className="italic pb-2">{review.date}</p>
-      <img src={review.image} alt={review.title} width="640" height="360" className="mb-2 rounded" />
-      <article dangerouslySetInnerHTML={{ __html: review.body }} className="prose prose-slate max-w-screen-sm" />
-    </>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold">{review.title}</h1>
+      <Image
+        src={`/images/${review.image}`} // This should point to the correct image path
+        alt={review.title}
+        width={640}
+        height={360}
+      />
+      <p className="text-gray-600">{review.date}</p>
+      <div dangerouslySetInnerHTML={{ __html: review.body }} />
+    </div>
   );
 }

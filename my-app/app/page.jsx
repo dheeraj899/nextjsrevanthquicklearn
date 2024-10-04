@@ -29,6 +29,16 @@ export default function HomePage() {
           </h2>
         </Link>
       </div>
+
+      {/* hellblade Review Card */}
+      <div className="bg-white border rounded shadow w-80 hover:shadow-xl sm:w-full mt-6">
+        <Link href="/reviews/hellblade" className="flex flex-col sm:flex-row">
+          <img src="/images/hellblade.jpg" alt="Hollow Knight" width="320" height="180" className="rounded-t sm:rounded-l sm:rounded-r-none" />
+          <h2 className="font-orbitron font-semibold py-1 text-center sm:px-2">
+            Hellblade
+          </h2>
+        </Link>
+      </div>
     </>
   );
 }

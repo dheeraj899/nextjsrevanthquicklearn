@@ -20,6 +20,15 @@ export default function ReviewsPage() {
           Stardew Valley is a charming farming simulation game that allows you to build and manage your own farm...
         </p>
       </Link>
+      <Link href="/reviews/hellblade" className="block">
+        <img src="/images/hellblade.jpg" alt="Hellblade" width="320" height="180" className="rounded-t" />
+        <h2 className="font-orbitron font-semibold py-1 text-center">
+          Hellblade
+        </h2>
+        <p className="text-justify">
+        Hellblade is a dark and atmospheric action-adventure game
+        </p>
+      </Link>
     </div>
   );
 }
