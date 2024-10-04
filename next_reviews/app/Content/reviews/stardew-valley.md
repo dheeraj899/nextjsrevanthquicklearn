@@ -23,4 +23,3 @@ Stardew Valley is a farming simulation game with __engaging__ gameplay and _char
 ## Conclusion
 
 A must-play for fans of farming simulators.
-
