@@ -22,3 +22,8 @@ export async function getReviews() {
   }
   return reviews;
 }
+export async function getSlugs() {
+  const files = await readdir('./app/content/reviews');
+  return files.filter((file) => file.endsWith('.md'))
+    .map((file) => file.slice(0, -'.md'.length));
+}
