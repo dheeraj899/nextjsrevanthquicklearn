@@ -1,34 +1,6 @@
 import Link from 'next/link';
 import Heading from '@/components/Heading';
 import { getFeaturedReview } from '@/lib/reviews';
-export const metadata = {
-  title: 'Indie Gamer',
-  description: 'Your go-to source for indie game reviews and news.',
-  openGraph: {
-    title: 'Indie Gamer',
-    description: 'Your go-to source for indie game reviews and news.',
-    url: 'https://indiegamer.com',
-    type: 'website',
-    images: [
-      {
-        url: 'https://indiegamer.com/images/og-image.jpg',
-        width: 800,
-        height: 600,
-        alt: 'Indie Gamer Logo',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@indiegamer',
-    title: 'Indie Gamer',
-    description: 'Your go-to source for indie game reviews and news.',
-    image: 'https://indiegamer.com/images/twitter-image.jpg',
-  },
-};
-
-
-
 export default async function HomePage() {
   const review = await getFeaturedReview();
   console.log('[HomePage] rendering');
