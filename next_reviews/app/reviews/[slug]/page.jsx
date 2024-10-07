@@ -1,4 +1,4 @@
-import { getReview } from '@/lib/reviews'; // Adjust the path based on your structure
+import { getReview,getSlugs } from '@/lib/reviews'; // Adjust the path based on your structure
 import Image from 'next/image';
 export default async function Page({ params }) {
   const { slug } = params; // Extract slug from the URL
@@ -19,4 +19,9 @@ export default async function Page({ params }) {
       <div className="markdown-content" dangerouslySetInnerHTML={{ __html: review.body }} />
     </div>
   );
+}
+
+  export async function generateStaticParams() {
+  const slugs = await getSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
