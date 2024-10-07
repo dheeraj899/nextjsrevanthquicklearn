@@ -1,5 +1,16 @@
 import { getReview, getSlugs } from '@/lib/reviews';// Adjust the path based on your structure
 import Image from 'next/image';
+// Generate metadata dynamically based on review data
+export async function generateMetadata({ params }) {
+  const { slug } = params;  // Extract 'slug' from 'params'
+  console.log('generateMetadata params:', params);  // Log 'params' for debugging
+  const review = await getReview(slug);
+  return {
+    title: review.title,
+    description: review.description,
+    keywords: Array.isArray(review.keywords) ? review.keywords.join(', ') : '',
+  };
+}
 
 export default async function Page({ params }) {
   const { slug } = params; // Extract slug from the URL
