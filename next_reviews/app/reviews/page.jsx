@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ShareLinkButton from '@/components/ShareLinkButton';
 import Heading from '@/components/Heading';
 import { getReviews } from '@/lib/reviews';
 
@@ -13,6 +14,10 @@ export default async function ReviewsPage() {
   return (
     <>
       <Heading>Reviews</Heading>
+      <div className="flex gap-3 items-baseline">
+        <p className="italic pb-2">{review.date}</p>
+        <ShareLinkButton />
+      </div>
       <ul className="flex flex-row flex-wrap gap-3">
         {reviews.map((review) => (
           <li key={review.slug}
