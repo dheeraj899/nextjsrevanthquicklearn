@@ -15,10 +15,6 @@ export default async function ReviewsPage() {
   return (
     <>
       <Heading>Reviews</Heading>
-      <div className="flex gap-3 items-baseline">
-        <p className="italic pb-2">{review.date}</p>
-        <ShareLinkButton />
-      </div>
 
       <ul className="flex flex-row flex-wrap gap-3">
         {reviews.map((review) => (
@@ -35,6 +31,10 @@ export default async function ReviewsPage() {
                 {review.title}
               </h2>
             </Link>
+            <div className="flex gap-3 items-baseline p-2">
+              <p className="italic">{review.date || 'Date not available'}</p> {/* Safe fallback */}
+              <ShareLinkButton slug={review.slug} /> {/* Pass the slug here */}
+            </div>
           </li>
         ))}
       </ul>
