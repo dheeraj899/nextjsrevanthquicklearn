@@ -1,22 +1,26 @@
 "use client";
 
+import { useState } from 'react';
+
 export default function ShareLinkButton({ slug }) {
+  const [clicked, setClicked] = useState(false);
+
   const handleClick = () => {
-    const url = `${window.location.origin}/reviews/${slug}`; // Construct the URL for the review
-    navigator.clipboard.writeText(url) // Copy the URL to the clipboard
-      .then(() => {
-        console.log('URL copied to clipboard:', url);
-        alert('Link copied to clipboard!'); // Optional: Alert the user
-      })
-      .catch(err => console.error('Failed to copy: ', err));
+    console.log('clicked!');
+    navigator.clipboard.writeText(window.location.href);
+    setClicked(true);
+    setTimeout(() => setClicked(false), 1500);
   };
 
   return (
-    <button
-      onClick={handleClick}
-      className="border px-2 py-1 rounded text-slate-500 text-sm hover:bg-orange-100 hover:text-slate-700"
-    >
-      Share link
-    </button>
+    <div>
+      <button
+        onClick={handleClick}
+        className="border px-2 py-1 rounded text-slate-500 text-sm hover:bg-orange-100 hover:text-slate-700"
+      >
+        Share link
+      </button>
+      {clicked && <span className="ml-2 text-green-500">Link copied!</span>} {/* Optional message */}
+    </div>
   );
 }
