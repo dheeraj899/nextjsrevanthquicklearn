@@ -1,6 +1,8 @@
 "use client"; // This directive ensures the component is rendered on the client side
 
 import { useState } from 'react'; // Import useState from React
+import { LinkIcon } from '@heroicons/react/20/solid';
+
 
 export default function ShareLinkButton({ slug }) {
   const [clicked, setClicked] = useState(false); // State to manage the clicked status
@@ -18,6 +20,7 @@ export default function ShareLinkButton({ slug }) {
         onClick={handleClick} // Calls handleClick when button is clicked
         className="border px-2 py-1 rounded text-slate-500 text-sm hover:bg-orange-100 hover:text-slate-700"
       >
+        <LinkIcon className="h-4 w-4" />
         Share link
       </button>
       {clicked && <span className="ml-2 text-green-500">Link copied!</span>} {/* Optional message */}
