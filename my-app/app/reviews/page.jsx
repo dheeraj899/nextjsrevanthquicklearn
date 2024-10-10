@@ -1,9 +1,11 @@
+// app/reviews/page.jsx
+import Heading from '../../components/Heading';
 import Link from 'next/link';
+
 export default function ReviewsPage() {
   return (
     <>
-      <h1>Reviews</h1>
-      <p>Here we will list all the reviews.</p>
+      <Heading>Reviews</Heading>
       <ul>
         <li>
           <Link href="/reviews/hollow-knight">Hollow Knight</Link>
@@ -15,3 +17,4 @@ export default function ReviewsPage() {
     </>
   );
 }
+

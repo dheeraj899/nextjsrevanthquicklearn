@@ -1,17 +1,14 @@
-'use client';
-
-import { useEffect } from 'react';
+// app/page.jsx
+import Heading from '../components/Heading';
 
 export default function HomePage() {
-  useEffect(() => {
-    window.alert('Welcome to my site!!!');
-  }, []);
-
   return (
-    <div className="px-4 py-2">
-      <h1>Indie Gamer</h1>
-      <p>Welcome to the Indie Gamer website!</p>
-    </div>
+    <>
+      <Heading>Indie Gamer</Heading>
+      <p>
+        Only the best indie games, reviewed for you.
+      </p>
+    </>
   );
 }
 
