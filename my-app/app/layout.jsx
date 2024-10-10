@@ -20,7 +20,9 @@ export default function RootLayout({ children }) {
             </ul>
           </nav>
         </header>
-        <main className="grow py-3">{children}</main>
+        <main className="grow py-3">
+          {children}
+        </main>
         <footer className="border-t py-3 text-center text-xs">
           Game data and images courtesy of ...
         </footer>
@@ -28,6 +30,8 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
+
 
 
 
