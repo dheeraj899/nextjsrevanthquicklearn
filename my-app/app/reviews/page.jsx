@@ -1,9 +1,10 @@
+import Link from 'next/link';
 export default function ReviewsPage() {
   return (
     <>
-      <h1 className="text-2xl font-bold">Reviews</h1>
-      <p className="text-lg">Here we'll list all the reviews.</p>
-      <ul className="bg-gray-200 p-4">
+      <h1>Reviews</h1>
+      <p>Here we will list all the reviews.</p>
+      <ul>
         <li>
           <Link href="/reviews/hollow-knight">Hollow Knight</Link>
         </li>
