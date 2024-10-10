@@ -1,5 +1,5 @@
 // app/page.jsx
-import Heading from '../components/Heading';
+import Heading from '@/components/Heading';
 
 export default function HomePage() {
   return (

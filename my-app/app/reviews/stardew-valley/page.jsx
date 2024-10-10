@@ -1,5 +1,5 @@
 // app/reviews/stardew-valley/page.jsx
-import Heading from '../../../components/Heading';
+import Heading from '@/components/Heading';
 
 export default function StardewValleyPage() {
   return (
@@ -11,4 +11,3 @@ export default function StardewValleyPage() {
     </>
   );
 }
-  

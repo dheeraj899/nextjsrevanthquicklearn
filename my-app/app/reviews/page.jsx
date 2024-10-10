@@ -1,5 +1,5 @@
 // app/reviews/page.jsx
-import Heading from '../../components/Heading';
+import Heading from '@/components/Heading';
 import Link from 'next/link';
 
 export default function ReviewsPage() {
