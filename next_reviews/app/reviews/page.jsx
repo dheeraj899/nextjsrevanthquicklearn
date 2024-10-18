@@ -29,7 +29,7 @@ export default async function ReviewsPage() {
             </Link>
             <div className="flex gap-3 items-baseline">
         <p className="italic pb-2">{review.date}</p>
-        <ShareLinkButton slug = {review.slug} />
+       
       
     
       </div>
