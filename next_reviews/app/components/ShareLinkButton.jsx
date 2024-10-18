@@ -18,5 +18,14 @@ export default function ShareLinkButton() {
      {clicked && <span className="ml-2 text-green-500">Link copied!</span>} {/* Optional message */}
     </div>
 
-    );
-  }
+  );
+}
+export function ShareButtons() {
+  return (
+    <div>
+      <ShareLinkButton />
+      <button>Twitter</button>
+      <button>Facebook</button>
+    </div>
+  );
+}
