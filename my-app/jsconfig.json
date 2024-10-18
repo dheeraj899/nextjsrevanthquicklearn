@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
-    "baseUrl": "app",  // Set the base URL to the "app" folder
+    "baseUrl": "app",                // Set the base URL to the "app" folder
     "paths": {
-      "@/*": ["./*"]    // Map "@" to the root of the "app" folder
-    }
+      "@/*": ["./*"]                 // Map "@" to the root of the "app" folder
+    },
+    "target": "ESNext",              // Target the latest ECMAScript version
+    "module": "ESNext",              // Use ESNext module system
+    "moduleResolution": "node",      // Module resolution strategy
+    "allowSyntheticDefaultImports": true // Allow default imports from modules with no default export
   },
-  "include": ["app/**/*"]  // Include everything inside the "app" folder
+  "include": ["app/**/*", "next.config.mjs"]  // Include everything inside the "app" folder and the config file
 }

@@ -1,5 +1,6 @@
 import { getReview, getSlugs } from '@/lib/reviews';// Adjust the path based on your structure
 import Image from 'next/image';
+import { ShareButtons } from '@/components/ShareLinkButton';
 // Generate metadata dynamically based on review data
 export async function generateMetadata({ params }) {
   const { slug } = params;  // Extract 'slug' from 'params'
@@ -28,9 +29,11 @@ export default async function Page({ params }) {
         alt={review.title}
         width={640}
         height={360}
+        layout="responsive"
       />
       <p className="text-gray-600">{review.date}</p>
       <div className="markdown-content" dangerouslySetInnerHTML={{ __html: review.body }} />
+      <ShareButtons />
     </div>
   );
 }

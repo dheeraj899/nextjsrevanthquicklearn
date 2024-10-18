@@ -1,0 +1,24 @@
+export default async function Sitemap() {
+  const urls = [
+    { slug: '' },        // Home page
+    { slug: 'about' },   // About page
+    { slug: 'contact' }, // Contact page
+    // Add more static routes here
+  ];
+
+  const xml = `
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      ${urls.map(page => `
+        <url>
+          <loc>${`https://yourwebsite.com/${page.slug}`}</loc>
+        </url>
+      `).join('')}
+    </urlset>
+  `;
+
+  return new Response(xml, {
+    headers: {
+      'Content-Type': 'application/xml',
+    },
+  });
+}
