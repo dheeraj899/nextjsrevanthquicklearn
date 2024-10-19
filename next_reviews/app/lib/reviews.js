@@ -1,6 +1,7 @@
 import { readdir, readFile } from 'node:fs/promises';
 import matter from 'gray-matter';
 import { marked } from 'marked';
+import qs from 'qs';
 
 export async function getReview(slug) {
   const text = await readFile(`./app/content/reviews/${slug}.md`, 'utf8');
@@ -10,16 +11,21 @@ export async function getReview(slug) {
 }
 
 export async function getReviews() {
-  const files = await readdir('./app/content/reviews');
-  const slugs = files.filter((file) => file.endsWith('.md'))
-    .map((file) => file.slice(0, -'.md'.length));
-  const reviews = [];
-  for (const slug of slugs) {
-    const review = await getReview(slug);
-    reviews.push(review);
-  }
-  reviews.sort((a, b) => b.date.localeCompare(a.date)); // Sort by date, most recent first
-  return reviews;
+  const url = 'http://localhost:1337/api/reviews?' + qs.stringify({
+    fields: ['slug', 'title', 'subtitle', 'publishedAt'],
+    populate: { image: { fields: ['url'] } },
+    sort: ['publishedAt:desc'],
+    pagination: { pageSize: 10 },
+  }, { encodeValuesOnly: true });
+
+  console.log('getReviews:', url);
+  const response = await fetch(url);
+  const { data } = await response.json();
+  
+  return data.map(({ attributes }) => ({
+    slug: attributes.slug,
+    title: attributes.title,
+  }));
 }
   export async function getSlugs() {
   const files = await readdir('./app/content/reviews');
