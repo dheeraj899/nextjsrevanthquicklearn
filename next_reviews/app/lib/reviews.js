@@ -2,6 +2,7 @@ import { readdir, readFile } from 'node:fs/promises';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 import qs from 'qs';
+const CMS_URL = 'http://localhost:1337';
 
 export async function getReview(slug) {
   const text = await readFile(`./app/content/reviews/${slug}.md`, 'utf8');
@@ -11,20 +12,21 @@ export async function getReview(slug) {
 }
 
 export async function getReviews() {
-  const url = 'http://localhost:1337/api/reviews?' + qs.stringify({
+  const url = `${CMS_URL}/api/reviews?` + qs.stringify({
     fields: ['slug', 'title', 'subtitle', 'publishedAt'],
     populate: { image: { fields: ['url'] } },
     sort: ['publishedAt:desc'],
-    pagination: { pageSize: 10 },
+    pagination: { pageSize: 6 },
   }, { encodeValuesOnly: true });
 
-  console.log('getReviews:', url);
   const response = await fetch(url);
   const { data } = await response.json();
-  
+
   return data.map(({ attributes }) => ({
     slug: attributes.slug,
     title: attributes.title,
+    date: attributes.publishedAt.slice(0, 'yyyy-mm-dd'.length),
+    image: CMS_URL + attributes.image.data.attributes.url,
   }));
 }
   export async function getSlugs() {
