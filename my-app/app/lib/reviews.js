@@ -6,11 +6,25 @@ const CMS_URL = 'http://localhost:1337';
 
 // Function to fetch a single review from a Markdown file
 export async function getReview(slug) {
-  const text = await readFile(`./app/content/reviews/${slug}.md`, 'utf8');
-  const { content, data: { title, date, image } } = matter(text);
-  console.log(`Review fetched - Title: ${title}, Image: ${image}`); // Log title and image
-  const body = marked(content);
-  return { slug, title, date, image, body };
+  const url = `${CMS_URL}/api/reviews?`
+    + qs.stringify({
+      filters: { slug: { $eq: slug } },
+      fields: ['slug', 'title', 'subtitle', 'publishedAt', 'body'],
+      populate: { image: { fields: ['url'] } },
+      pagination: { pageSize: 1, withCount: false },
+    }, { encodeValuesOnly: true });
+
+  const response = await fetch(url);
+  const { data } = await response.json();
+
+  const { attributes } = data[0];
+  return {
+    slug: attributes.slug,
+    title: attributes.title,
+    date: attributes.publishedAt.slice(0, 'yyyy-mm-dd'.length),
+    image: CMS_URL + attributes.image.data.attributes.url,
+    body: marked(attributes.body),
+  };
 }
 
 export async function getReviews() {
@@ -18,7 +32,7 @@ export async function getReviews() {
     fields: ['slug', 'title', 'subtitle', 'publishedAt'],
     populate: { image: { fields: ['url'] } },
     sort: ['publishedAt:desc'],
-    pagination: { pageSize: 7 },
+    pagination: { pageSize: 6 },
   }, { encodeValuesOnly: true });
 
   const response = await fetch(url);
