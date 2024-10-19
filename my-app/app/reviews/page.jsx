@@ -16,11 +16,12 @@ export default async function ReviewsPage() {
       <Heading>Reviews</Heading>
       <ul className="flex flex-row flex-wrap gap-3">
         {reviews.map((review) => (
-          <li key={review.slug} className="bg-white border rounded shadow w-80 hover:shadow-xl">
+          
+          <li key={review.slug} title={review.title} className="bg-white border rounded shadow w-80 hover:shadow-xl">
             <Link href={`/reviews/${review.slug}`}>
               <Image
-                src={review.image.replace(/^\/+/, '/')}
-                alt={review.title}
+                src={review.image}
+                alt=""
                 width={320}
                 height={180}
                 className="rounded-t"
