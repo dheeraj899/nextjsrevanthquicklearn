@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 import qs from 'qs';
+const CMS_URL = 'http://localhost:1337';
 
 // Function to fetch a single review from a Markdown file
 export async function getReview(slug) {
@@ -13,20 +14,21 @@ export async function getReview(slug) {
 }
 
 export async function getReviews() {
-  const url = 'http://localhost:1337/api/reviews?' + qs.stringify({
+  const url = `${CMS_URL}/api/reviews?` + qs.stringify({
     fields: ['slug', 'title', 'subtitle', 'publishedAt'],
     populate: { image: { fields: ['url'] } },
     sort: ['publishedAt:desc'],
-    pagination: { pageSize: 6 },
+    pagination: { pageSize: 7 },
   }, { encodeValuesOnly: true });
 
-  console.log('getReviews:', url);
   const response = await fetch(url);
   const { data } = await response.json();
-  
+
   return data.map(({ attributes }) => ({
     slug: attributes.slug,
     title: attributes.title,
+    date: attributes.publishedAt.slice(0, 'yyyy-mm-dd'.length),
+    image: CMS_URL + attributes.image.data.attributes.url,
   }));
 }
 // Function to get slugs from the Markdown files
