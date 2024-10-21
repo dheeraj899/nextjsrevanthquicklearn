@@ -1,7 +1,17 @@
 import path from 'path';
 
 const nextConfig = {
-  output: 'export',
+  //output: 'export',
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',  // Use 'https' in production
+        hostname: 'localhost',
+        port: '1337',      // Port used by your image server, e.g., Strapi
+        pathname: '/uploads/**',
+      },
+    ],
+  },
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
