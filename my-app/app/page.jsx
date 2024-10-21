@@ -4,7 +4,7 @@ import Heading from '@/components/Heading';
 import { getFeaturedReview } from '@/lib/reviews';
 export default async function HomePage() {
   const review = await getFeaturedReview();
-  console.log('[HomePage] rendering');
+  //console.log('[HomePage] rendering');
   return (
     <>
       <Heading>Featured Review</Heading>

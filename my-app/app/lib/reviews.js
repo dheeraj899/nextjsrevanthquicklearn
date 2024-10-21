@@ -44,15 +44,18 @@ export async function getReviews() {
     fields: ['slug', 'title', 'subtitle', 'publishedAt'],
     populate: { image: { fields: ['url'] } },
     sort: ['publishedAt:desc'],
-    pagination: { pageSize: 6 },
+    pagination: { pageSize: 5 },
   });
   return data.map(toReview);
 }
-// Function to get slugs from the Markdown files
+// Function to get slugs directly form the CMS data 
 export async function getSlugs() {
-  const files = await readdir('./app/content/reviews');
-  return files.filter((file) => file.endsWith('.md'))
-    .map((file) => file.slice(0, -'.md'.length));
+  const { data } = await fetchReviews({
+    fields: ['slug'],
+    sort: ['publishedAt:desc'],
+    pagination: { pageSize: 100 },
+  });
+  return data.map((item) => item.attributes.slug);
 }
 
 // Function to get featured review
