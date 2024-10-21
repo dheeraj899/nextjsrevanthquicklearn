@@ -1,16 +1,22 @@
-///** @type {import('next').NextConfig} */
-//export default {
-  //output: 'export',
-//};
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-// Get the current directory name
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import path from 'path';
 const nextConfig = {
-  images: {domains: ['localhost']},
+  //output: 'export',
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',  // Use 'https' in production
+        hostname: 'localhost',
+        port: '1337',      // Port used by your image server, e.g., Strapi
+        pathname: '/uploads/**',
+      },
+    ],
+  },
   webpack: (config) => {
-    config.resolve.alias['@lib'] = `${__dirname}/app/lib`;
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@lib': path.resolve('./app/lib'),
+      '@content': path.resolve('./app/content'),
+    };
     return config;
   },
 };
