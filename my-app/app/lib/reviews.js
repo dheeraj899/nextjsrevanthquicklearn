@@ -39,12 +39,12 @@ export async function getReview(slug) {
    body: marked(item.attributes.body,{headerIds: false, mangle: false}),
   };
 }
-export async function getReviews() {
+export async function getReviews(pageSize) {
   const { data } = await fetchReviews({
     fields: ['slug', 'title', 'subtitle', 'publishedAt'],
     populate: { image: { fields: ['url'] } },
     sort: ['publishedAt:desc'],
-    pagination: { pageSize: 5 },
+    pagination: { pageSize },
   });
   return data.map(toReview);
 }
