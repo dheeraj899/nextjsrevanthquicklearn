@@ -48,10 +48,13 @@ export async function getReview(slug) {
   };
 }
 
-  export async function getSlugs() {
-  const files = await readdir('./app/content/reviews');
-  return files.filter((file) => file.endsWith('.md'))
-  .map((file) => file.slice(0, -'.md'.length));
+export async function getSlugs() {
+  const { data } = await fetchReviews({
+    fields: ['slug'],
+    sort: ['publishedAt:desc'],
+    pagination: { pageSize: 100 },
+  });
+  return data.map((item) => item.attributes.slug);
 }
 export async function getFeaturedReview() {
   const reviews = await getReviews();
