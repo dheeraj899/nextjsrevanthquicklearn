@@ -23,12 +23,12 @@ function toReview(item) {
     image: CMS_URL + attributes.image.data.attributes.url,
   };
 }
-export async function getReviews() {
+export async function getReviews(pageSize) {
   const { data } = await fetchReviews({
     fields: ['slug', 'title', 'subtitle', 'publishedAt'],
     populate: { image: { fields: ['url'] } },
     sort: ['publishedAt:desc'],
-    pagination: { pageSize: 6 },
+    pagination: { pageSize },
   });
   return data.map(toReview);
 }
