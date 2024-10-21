@@ -1,18 +1,15 @@
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-// Get the current directory name
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import path from 'path';
 
 const nextConfig = {
-  images: {
-    domains: ['localhost'], // Allow images from localhost
-  },
+  output: 'export',
   webpack: (config) => {
-    config.resolve.alias['@lib'] = `${__dirname}/app/lib`; // Adjust the path as needed
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@lib': path.resolve('./app/lib'),
+      '@content': path.resolve('./app/content'),
+    };
     return config;
   },
 };
 
-export default nextConfig;
+export default nextConfig;
