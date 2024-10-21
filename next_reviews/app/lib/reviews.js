@@ -5,12 +5,26 @@ import qs from 'qs';
 const CMS_URL = 'http://localhost:1337';
 
 export async function getReview(slug) {
-  const text = await readFile(`./app/content/reviews/${slug}.md`, 'utf8');
-  const { content, data: { title, date, image } } = matter(text);
-  const body = marked(content);
-  return { slug, title, date, image, body };
-}
+  const url = `${CMS_URL}/api/reviews?`
+    + qs.stringify({
+      filters: { slug: { $eq: slug } },
+      fields: ['slug', 'title', 'subtitle', 'publishedAt', 'body'],
+      populate: { image: { fields: ['url'] } },
+      pagination: { pageSize: 1, withCount: false },
+    }, { encodeValuesOnly: true });
 
+  const response = await fetch(url);
+  const { data } = await response.json();
+
+  const { attributes } = data[0];
+  return {
+    slug: attributes.slug,
+    title: attributes.title,
+    date: attributes.publishedAt.slice(0, 'yyyy-mm-dd'.length),
+    image: CMS_URL + attributes.image.data.attributes.url,
+    body: marked(attributes.body),
+  };
+}
 export async function getReviews() {
   const url = `${CMS_URL}/api/reviews?` + qs.stringify({
     fields: ['slug', 'title', 'subtitle', 'publishedAt'],

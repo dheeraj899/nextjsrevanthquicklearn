@@ -8,6 +8,7 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const nextConfig = {
+  images: {domains: ['localhost']},
   webpack: (config) => {
     config.resolve.alias['@lib'] = `${__dirname}/app/lib`;
     return config;

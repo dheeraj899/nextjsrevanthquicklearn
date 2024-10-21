@@ -32,7 +32,7 @@ export default async function Page({ params }) {
   );
 }
 
-  export async function generateStaticParams() {
-  const slugs = await getSlugs();
-  return slugs.map((slug) => ({ slug }));
-}
+  //export async function generateStaticParams() {
+  //const slugs = await getSlugs();
+  //return slugs.map((slug) => ({ slug }));
+//}
