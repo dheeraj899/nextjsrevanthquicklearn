@@ -1,6 +1,7 @@
 import { getReview,getSlugs } from '@/lib/reviews'; // Adjust the path based on your structure
 import Image from 'next/image';
 import ShareButtons from '@/components/ShareLinkButton';
+import { notFound } from 'next/navigation';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0; // This line is often assumed to make pages dynamic, but it's the 'force-dynamic' setting that does so.
 
@@ -8,6 +9,9 @@ export const revalidate = 0; // This line is often assumed to make pages dynamic
 // Generate metadata dynamically based on review data
 export async function generateMetadata({ params: { slug } }) {
   const review = await getReview(slug);
+  if (!review) {
+    notFound();
+  }
   return {
     title: review.title,
   };
@@ -19,7 +23,7 @@ export default async function Page({ params }) {
   //slug page
   console.log('[ReviewPage] rendering:', slug);
   if (!review) {
-    return <p>Review not found!</p>; // If review is not found, show this message
+    notFound();
   }
   return (
     <div className="p-4">
