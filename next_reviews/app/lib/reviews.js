@@ -9,7 +9,8 @@ async function fetchReviews(parameters) {
     + qs.stringify(parameters, { encodeValuesOnly: true });
   console.log('[fetchReviews]:', url);
   const response = await fetch(url, { cache: 'no-store', next: {
-    revalidate: 30, // seconds
+    tags: [CACHE_TAG_REVIEWS],
+    // seconds
   },
 });
   if (!response.ok) {
