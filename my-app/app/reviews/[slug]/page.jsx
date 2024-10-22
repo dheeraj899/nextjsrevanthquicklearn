@@ -2,6 +2,7 @@ import { getReview, getSlugs } from '@/lib/reviews';// Adjust the path based on 
 import Image from 'next/image';
 import Heading from '@/components/Heading';
 import { ShareButtons } from '@/components/ShareLinkButton';
+export const dynamicParams = true;
 // Generate metadata dynamically based on review data
 export async function generateMetadata({ params }) {
   const { slug } = params;  // Extract 'slug' from 'params'
@@ -17,6 +18,8 @@ export async function generateMetadata({ params }) {
 export default async function Page({ params }) {
   const { slug } = params; // Extract slug from the URL
   const review = await getReview(slug); // Fetch review based on slug
+  console.log('[ReviewPage] rendering:', slug);
+
 
   if (!review) {
     return <p>Review not found!</p>; // If review is not found, show this message
