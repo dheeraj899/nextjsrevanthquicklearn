@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Heading from '@/components/Heading';
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // Again, this won't replace 'force-dynamic'.
 //import { getFeaturedReview } from '@/lib/reviews';
 import { getReviews } from '@/lib/reviews';
 export default async function HomePage() {

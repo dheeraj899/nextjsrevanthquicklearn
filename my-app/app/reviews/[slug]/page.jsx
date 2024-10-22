@@ -2,7 +2,10 @@ import { getReview, getSlugs } from '@/lib/reviews';// Adjust the path based on 
 import Image from 'next/image';
 import Heading from '@/components/Heading';
 import { ShareButtons } from '@/components/ShareLinkButton';
+// In your page configuration
 export const dynamicParams = true;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // This line is often assumed to make pages dynamic, but it's the 'force-dynamic' setting that does so.
 // Generate metadata dynamically based on review data
 export async function generateMetadata({ params }) {
   const { slug } = params;  // Extract 'slug' from 'params'
