@@ -2,12 +2,15 @@ import Link from 'next/link';
 import Heading from '@/components/Heading';
 import { getReviews } from '@/lib/reviews';
 import Image from 'next/image';
+// In your page configuration
+export const dynamicParams = true;
 export const metadata = {
   title: 'Reviews',
 };
 export default async function ReviewsPage() {
   const reviews = await getReviews();
-  console.log('[ReviewsPage] reviews:', reviews);
+ //ReviewsPage page
+  console.log('[ReviewsPage] rendering:', reviews.map((review) => review.slug));
   return (
     <>
       <Heading>Reviews</Heading>
