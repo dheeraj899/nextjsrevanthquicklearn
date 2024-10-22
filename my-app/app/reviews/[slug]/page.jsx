@@ -23,20 +23,20 @@ export default async function Page({ params }) {
   }
 
   return (
-    <div className="p-4">
-      <Heading>{review.title}</Heading>
-      <p className="pb-2">{review.subtitle}</p>
-      <div className="flex gap-3 items-baseline">
-        <p className="italic pb-2">{review.date}</p>
-      </div>
-      <Image src={review.image} alt={review.title} priority width="640" height="360" className="mb-2 rounded" />
-      <article dangerouslySetInnerHTML={{ __html: review.body }} className="prose prose-slate max-w-screen-sm" />
-      <div className="mt-4"> {/* Margin Top for spacing */}
-        <ShareButtons />
-      </div>
+    <>
+    <Heading>{review.title}</Heading>
+    <p className="pb-2">{review.subtitle}</p>
+    <div className="flex gap-3 items-baseline">
+      <p className="italic pb-2">{review.date}</p>
+      
     </div>
-  );
+    <Image src={review.image} alt={review.title} priority width="640" height="360" className="mb-2 rounded" />
+    <article dangerouslySetInnerHTML={{ __html: review.body }} className="prose prose-slate max-w-screen-sm" />
+    <ShareButtons />
+  </>
+);
 }
+
 export async function generateStaticParams() {
   const slugs = await getSlugs();
   return slugs.map((slug) => ({ slug }));
