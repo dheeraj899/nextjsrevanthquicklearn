@@ -3,6 +3,7 @@ import matter from 'gray-matter';
 import { marked } from 'marked';
 import qs from 'qs';
 const CMS_URL = 'http://localhost:1337';
+export const CACHE_TAG_REVIEWS = 'reviews';
 
 //lib/reviewes.js
 async function fetchReviews(parameters) {
@@ -10,7 +11,7 @@ async function fetchReviews(parameters) {
     + qs.stringify(parameters, { encodeValuesOnly: true });
   console.log('[fetchReviews]:', url);
   const response = await fetch(url, { cache: 'no-store',next: {
-    revalidate: 10, // seconds
+    tags: [CACHE_TAG_REVIEWS], // seconds
   },
   });
   if (!response.ok) {
