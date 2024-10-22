@@ -19,6 +19,7 @@ export default async function HomePage() {
             <h2 className="font-orbitron font-semibold py-1 text-center sm:px-2">
               {review.title}
             </h2>
+            <p className="flex-1 mt-2 text-center sm:px-2 sm:mt-0">{review.subtitle}</p>
           </Link>
         </li>
         ))}
