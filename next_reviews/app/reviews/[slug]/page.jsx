@@ -1,6 +1,10 @@
 import { getReview,getSlugs } from '@/lib/reviews'; // Adjust the path based on your structure
 import Image from 'next/image';
 import ShareButtons from '@/components/ShareLinkButton';
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // This line is often assumed to make pages dynamic, but it's the 'force-dynamic' setting that does so.
+
+
 // Generate metadata dynamically based on review data
 export async function generateMetadata({ params: { slug } }) {
   const review = await getReview(slug);

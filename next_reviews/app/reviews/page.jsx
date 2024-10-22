@@ -4,6 +4,8 @@ import { getReviews } from '@/lib/reviews';
 import Image from 'next/image';
 // In your page configuration
 export const dynamicParams = true;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // This line is often assumed to make pages dynamic, but it's the 'force-dynamic' setting that does so.
 export const metadata = {
   title: 'Reviews',
 };
