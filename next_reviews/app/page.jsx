@@ -3,7 +3,7 @@ import Heading from '@/components/Heading';
 import { getReviews } from '@/lib/reviews';
 import Image from 'next/image';
 export const dynamic = 'force-dynamic';
-export const revalidate = 0; // Again, this won't replace 'force-dynamic'.
+export const revalidate = 30; // Again, this won't replace 'force-dynamic'.
 export default async function HomePage() {
   const review = await getReviews(3);
   console.log('[HomePage] rendering:', review.map((review) => review.slug).join(', '));
