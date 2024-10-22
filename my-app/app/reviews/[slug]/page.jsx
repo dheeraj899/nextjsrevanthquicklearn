@@ -1,5 +1,6 @@
 import { getReview, getSlugs } from '@/lib/reviews';// Adjust the path based on your structure
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import Heading from '@/components/Heading';
 import { ShareButtons } from '@/components/ShareLinkButton';
 // In your page configuration
@@ -11,6 +12,9 @@ export async function generateMetadata({ params }) {
   const { slug } = params;  // Extract 'slug' from 'params'
   console.log('generateMetadata params:', params);  // Log 'params' for debugging
   const review = await getReview(slug);
+  if (!review) {
+    notFound();
+  }
   return {
     title: review.title,
     description: review.description,
@@ -25,7 +29,7 @@ export default async function Page({ params }) {
 
 
   if (!review) {
-    return <p>Review not found!</p>; // If review is not found, show this message
+    notFound() // If review is not found, show this message
   }
 
   return (
