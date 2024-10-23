@@ -3,6 +3,7 @@ import Heading from '@/components/Heading';
 import { getReviews } from '@/lib/reviews';
 import Image from 'next/image';
 import PaginationBar from '@/components/PaginationBar';
+import SearchBox from '@/components/SearchBox';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
@@ -28,6 +29,7 @@ export default async function ReviewsPage({ searchParams }) {
   return (
     <>
       <Heading>Reviews</Heading>
+
       <ul className="flex flex-row flex-wrap gap-3">
         {reviews.map((review, index) => (
           <li key={review.slug} title={review.title} className="bg-white border rounded shadow w-80 hover:shadow-xl">
@@ -55,6 +57,7 @@ export default async function ReviewsPage({ searchParams }) {
         page={pagination.page} 
         pageCount={pagination.pageCount} 
       />
+      <SearchBox />
     </>
   );
 }
