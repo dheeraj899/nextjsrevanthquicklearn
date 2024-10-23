@@ -8,10 +8,20 @@ export const revalidate = 0;
 export const metadata = {
   title: 'Reviews',
 };
-
-export default async function ReviewsPage() {
-  const reviews = await getReviews();
-  //ReviewsPage page
+function parsePageParam(paramValue) {
+  if (paramValue) {
+    const page = parseInt(paramValue);
+    if (isFinite(page) && page > 0) {
+      return page;
+    }
+  }
+  return 1;
+}
+const PAGE_SIZE = 4;
+export default async function ReviewsPage({ searchParams }) {
+  const page = parsePageParam(searchParams.page);
+  const pageSize = PAGE_SIZE;
+  const { reviews, pagination } = await getReviews(pageSize, page);
   console.log('[ReviewsPage] rendering:', reviews.map((review) => review.slug));
   
   return (
@@ -39,6 +49,15 @@ export default async function ReviewsPage() {
           </li>
         ))}
       </ul>
+      <div className="flex gap-2 pb-3">
+        {pagination.page > 1 && (
+          <Link href={`/reviews?page=${pagination.page - 1}`}>&lt; Prev</Link>
+        )}
+        <span>Page {pagination.page} of {pagination.pageCount}</span>
+        {pagination.page < pagination.pageCount && (
+          <Link href={`/reviews?page=${pagination.page + 1}`}>Next &gt;</Link>
+        )}
+      </div>
     </>
   );
 }

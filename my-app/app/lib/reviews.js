@@ -47,14 +47,18 @@ export async function getReview(slug) {
    body: marked(item.attributes.body,{headerIds: false, mangle: false}),
   };
 }
-export async function getReviews(pageSize) {
-  const { data } = await fetchReviews({
+//lib/reviews.js
+export async function getReviews(pageSize, page) {
+  const { data, meta } = await fetchReviews({
     fields: ['slug', 'title', 'subtitle', 'publishedAt'],
     populate: { image: { fields: ['url'] } },
     sort: ['publishedAt:desc'],
-    pagination: { pageSize },
+    pagination: { pageSize, page },
   });
-  return data.map(toReview);
+  return {
+    reviews: data.map(toReview),
+    pagination: meta.pagination,
+  };
 }
 // Function to get slugs directly form the CMS data 
 export async function getSlugs() {
