@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Heading from '@/components/Heading';
-import { getReviews, getSearchableReviews } from '@/lib/reviews';
+import { getReviews } from '@/lib/reviews';
 import Image from 'next/image';
 import PaginationBar from '@/components/PaginationBar';
 import SearchBox from '@/components/SearchBox';
@@ -24,7 +24,7 @@ export default async function ReviewsPage({ searchParams }) {
   const page = parsePageParam(searchParams.page);
   const pageSize = PAGE_SIZE;
   const { reviews, pagination } = await getReviews(pageSize, page);
-  const searchableReviews = await getSearchableReviews();
+  //const searchableReviews = await getSearchableReviews();
   console.log('[ReviewsPage] rendering:', reviews.map((review) => review.slug));
   
   return (
@@ -58,7 +58,7 @@ export default async function ReviewsPage({ searchParams }) {
         page={pagination.page} 
         pageCount={pagination.pageCount} 
       />
-      <SearchBox reviews={searchableReviews} />
+      <SearchBox />
     </>
   );
 }

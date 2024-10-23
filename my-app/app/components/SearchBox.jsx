@@ -1,24 +1,27 @@
-// components/SearchBox.jsx
 'use client';
 
 import { Combobox, ComboboxOption } from '@headlessui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useIsClient } from '@/lib/hooks'; // Your custom hook
+import { searchReviews } from '@/lib/reviews'; // Your custom hook
 
 export default function SearchBox({ reviews }) {
-    const isClient = useIsClient();
-    const router = useRouter();
     const [query, setQuery] = useState('');
+    const [fetchedReviews, setFetchedReviews] = useState([]); // Renamed here
+    const router = useRouter();
 
-    if (!isClient) {
-        return null; // Prevent rendering on the server
-    }
+    useEffect(() => {
+        const fetchReviews = async () => {
+            if (query.length > 1) {
+                const results = await searchReviews(query);
+                setFetchedReviews(results); // Update the state with fetched reviews
+            } else {
+                setFetchedReviews([]); // Clear reviews if query is too short
+            }
+        };
 
-    // Filter reviews based on the user's query
-    const filtered = reviews.filter((review) =>
-        review.title.toLowerCase().includes(query.toLowerCase())
-    );
+        fetchReviews();
+    }, [query]);
 
     const handleChange = (review) => {
         if (review && review.slug) {
@@ -35,10 +38,10 @@ export default function SearchBox({ reviews }) {
                 className="border px-2 py-1 rounded w-full"
             />
             <Combobox.Options className="absolute bg-white py-1 w-full">
-                {filtered.length === 0 ? (
+                {fetchedReviews.length === 0 ? ( // Updated here
                     <span className="block px-2 truncate w-full">No results found</span>
                 ) : (
-                    filtered.map((review) => (
+                    fetchedReviews.map((review) => ( // Updated here
                         <ComboboxOption key={review.slug} value={review}>
                             {({ active }) => (
                                 <span className={`block px-2 truncate w-full ${active ? 'bg-orange-100' : ''}`}>

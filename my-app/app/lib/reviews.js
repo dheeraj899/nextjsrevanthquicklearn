@@ -1,5 +1,5 @@
-import { readFile } from 'node:fs/promises';
-import matter from 'gray-matter';
+//import { readFile } from 'fs/promises';
+//import matter from 'gray-matter';
 import { marked } from 'marked';
 import qs from 'qs';
 const CMS_URL = 'http://localhost:1337';
@@ -101,3 +101,18 @@ export async function getSearchableReviews() {
     title: attributes.title,
   }));
 }
+// lib/reviews.js
+export async function searchReviews(query) {
+    const { data } = await fetchReviews({
+        filters: { title: { $containsi: query } },
+        fields: ['slug', 'title'],
+        sort: ['title'],
+        pagination: { pageSize: 5 },
+    });
+    
+    return data.map(({ attributes }) => ({
+        slug: attributes.slug,
+        title: attributes.title,
+    }));
+}
+
