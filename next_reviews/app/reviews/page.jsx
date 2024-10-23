@@ -3,6 +3,7 @@ import Heading from '@/components/Heading';
 import { getReviews } from '@/lib/reviews';
 import Image from 'next/image';
 import PaginationBar from '@/components/PaginationBar';
+import SearchBox from '@/components/SearchBox';
 // In your page configuration
 
 export const dynamicParams = true;
@@ -59,6 +60,7 @@ export default async function ReviewsPage({ searchParams }) {
         page={pagination.page} 
         pageCount={pagination.pageCount} 
       />
+      <SearchBox />
     </>
   );
 }
