@@ -3,6 +3,7 @@ import matter from 'gray-matter';
 import { marked } from 'marked';
 import qs from 'qs';
 const CMS_URL = 'http://localhost:1337';
+export const CACHE_TAG_REVIEWS = 'reviews';
 //lib/reviewes.js
 async function fetchReviews(parameters) {
   const url = `${CMS_URL}/api/reviews?`
@@ -28,14 +29,18 @@ function toReview(item) {
     image: CMS_URL + attributes.image.data.attributes.url,
   };
 }
-export async function getReviews(pageSize) {
-  const { data } = await fetchReviews({
+//lib/reviews.js
+export async function getReviews(pageSize, page) {
+  const { data, meta } = await fetchReviews({
     fields: ['slug', 'title', 'subtitle', 'publishedAt'],
     populate: { image: { fields: ['url'] } },
     sort: ['publishedAt:desc'],
-    pagination: { pageSize },
+    pagination: { pageSize, page },
   });
-  return data.map(toReview);
+  return {
+    reviews: data.map(toReview),
+    pagination: meta.pagination,
+  };
 }
 
 
