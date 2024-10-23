@@ -89,3 +89,15 @@ export async function getReviewImage(slug) {
   console.log(`Image for slug "${slug}":`, review.image); // Log the image to debug
   return { url: review.image };
 }
+//lib/reviews.js
+export async function getSearchableReviews() {
+  const { data } = await fetchReviews({
+    fields: ['slug', 'title'],
+    sort: ['publishedAt:desc'],
+    pagination: { pageSize: 100 },
+  });
+  return data.map(({ attributes }) => ({
+    slug: attributes.slug,
+    title: attributes.title,
+  }));
+}

@@ -6,33 +6,21 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useIsClient } from '@/lib/hooks'; // Your custom hook
 
-export default function SearchBox() {
+export default function SearchBox({ reviews }) {
     const isClient = useIsClient();
     const router = useRouter();
-
-    // Initialize the state outside of the conditional
     const [query, setQuery] = useState('');
 
-    // Only set the reviews if the component is rendered on the client
-    const reviews = [
-        { slug: 'hades-2018', title: 'Hades' },
-        { slug: 'fall-guys', title: 'Fall Guys: Ultimate Knockout' },
-        { slug: 'black-mesa', title: 'Black Mesa' },
-        { slug: 'disco-elysium', title: 'Disco Elysium' },
-        { slug: 'dead-cells', title: 'Dead Cells' },
-    ];
-
-    // Ensure to return null immediately if not on client
     if (!isClient) {
-        return null;
+        return null; // Prevent rendering on the server
     }
 
+    // Filter reviews based on the user's query
     const filtered = reviews.filter((review) =>
         review.title.toLowerCase().includes(query.toLowerCase())
     );
 
     const handleChange = (review) => {
-        // Check if review is valid before accessing its slug
         if (review && review.slug) {
             router.push(`/reviews/${review.slug}`);
         }
@@ -40,7 +28,7 @@ export default function SearchBox() {
 
     return (
         <Combobox onChange={handleChange}>
-            <Combobox.Input 
+            <Combobox.Input
                 placeholder="Search…"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
