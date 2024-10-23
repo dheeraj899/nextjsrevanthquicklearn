@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Heading from '@/components/Heading';
 import { getReviews } from '@/lib/reviews';
 import Image from 'next/image';
+import PaginationBar from '@/components/PaginationBar';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
@@ -17,7 +18,7 @@ function parsePageParam(paramValue) {
   }
   return 1;
 }
-const PAGE_SIZE = 4;
+const PAGE_SIZE = 6;
 export default async function ReviewsPage({ searchParams }) {
   const page = parsePageParam(searchParams.page);
   const pageSize = PAGE_SIZE;
@@ -49,15 +50,11 @@ export default async function ReviewsPage({ searchParams }) {
           </li>
         ))}
       </ul>
-      <div className="flex gap-2 pb-3">
-        {pagination.page > 1 && (
-          <Link href={`/reviews?page=${pagination.page - 1}`}>&lt; Prev</Link>
-        )}
-        <span>Page {pagination.page} of {pagination.pageCount}</span>
-        {pagination.page < pagination.pageCount && (
-          <Link href={`/reviews?page=${pagination.page + 1}`}>Next &gt;</Link>
-        )}
-      </div>
+      <PaginationBar 
+        href="/reviews" 
+        page={pagination.page} 
+        pageCount={pagination.pageCount} 
+      />
     </>
   );
 }
