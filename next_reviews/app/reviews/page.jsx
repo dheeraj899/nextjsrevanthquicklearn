@@ -4,6 +4,7 @@ import { getReviews } from '@/lib/reviews';
 import Image from 'next/image';
 import PaginationBar from '@/components/PaginationBar';
 import SearchBox from '@/components/SearchBox';
+
 // In your page configuration
 
 export const dynamicParams = true;
@@ -24,6 +25,7 @@ function parsePageParam(paramValue) {
 const PAGE_SIZE = 5;
  //app/reviews/page.jsx
 export default async function ReviewsPage({ searchParams }) {
+  //const searchableReviews = await getSearchableReviews();
   const page = parsePageParam(searchParams.page);
   const pageSize = PAGE_SIZE;
   const { reviews, pagination } = await getReviews(pageSize, page);

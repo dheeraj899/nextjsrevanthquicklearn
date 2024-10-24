@@ -73,7 +73,30 @@ export async function getFeaturedReview() {
   const reviews = await getReviews();
   return reviews[0];
 }
-
+//lib/reviews.js
+export async function getSearchableReviews() {
+  const { data } = await fetchReviews({
+    fields: ['slug', 'title'],
+    sort: ['publishedAt:desc'],
+    pagination: { pageSize: 100 },
+  });
+  return data.map(({ attributes }) => ({
+    slug: attributes.slug,
+    title: attributes.title,
+  }));
+}
+export async function searchReviews(query) {
+  const { data } = await fetchReviews({
+    filters: { title: { $containsi: query } },
+    fields: ['slug', 'title'],
+    sort: ['title'],
+    pagination: { pageSize: 5 },
+  });
+  return data.map(({ attributes }) => ({
+    slug: attributes.slug,
+    title: attributes.title,
+  }));
+}
 
 
 
