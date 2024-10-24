@@ -1,14 +1,12 @@
-import NavBar from '../components/NavBar';
-import { exo2, orbitron } from './fonts';
+import NavBar from './components/NavBar';
 import './globals.css';
-
+import { exo2,orbitron } from './fonts';
 export const metadata = {
   title: {
     default: 'Indie Gamer',
     template: '%s | Indie Gamer',
   },
 };
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${exo2.variable} ${orbitron.variable}`}>
@@ -19,11 +17,9 @@ export default function RootLayout({ children }) {
         <main className="grow py-3">
           {children}
         </main>
-        <footer className="border-t py-3 text-center text-slate-500 text-xs">
-          Game data and images courtesy of{' '}
-          <a href="https://rawg.io/" target="_blank"
-            className="text-orange-800 hover:underline">
-            RAWG
+        <footer className="border-t py-3 text-center  text-slate-500 text-xs">
+          Quick Learn Blogs by <a href="https://www.revanthquicklearn.com/" target="_blank" className="text-orange-800 hover:underline">
+            Revanth
           </a>
         </footer>
       </body>

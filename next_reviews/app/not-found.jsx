@@ -1,3 +1,4 @@
+// app/not-found.jsx
 import Heading from '@/components/Heading';
 
 export default function NotFoundPage() {
