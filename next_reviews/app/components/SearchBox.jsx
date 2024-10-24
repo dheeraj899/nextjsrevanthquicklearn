@@ -1,22 +1,25 @@
 'use client';
-import { Combobox } from '@headlessui/react';
+import { Combobox, ComboboxOption } from '@headlessui/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { searchReviews } from '@/lib/reviews'; // Your custom hook
-export default function SearchBox({ reviews }) {
+export default function SearchBox() {
   const [query, setQuery] = useState('');
-  const [fetchedReviews, setFetchedReviews] = useState([]); // Renamed here
+  const [fetchedReviews, setFetchedReviews] = useState([]); // Renamed state here
   const router = useRouter();
   useEffect(() => {
-    const fetchReviews = async () => {
-      if (query.length > 1) {
-        const results = await searchReviews(query);
-        setFetchedReviews(results); // Update the state with fetched reviews
-      } else {
-        setFetchedReviews([]); // Clear reviews if query is too short
-      }
-    };
-    fetchReviews();
+    if (query.length > 1) {
+      (async () => {
+        try {
+          const response = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
+          const reviews = await response.json();
+          setFetchedReviews(reviews); // Correctly updated state here
+        } catch (error) {
+          console.error('Failed to fetch reviews:', error);
+        }
+      })();
+    } else {
+      setFetchedReviews([]); // Clear fetched reviews if query is too short
+    }
   }, [query]);
   const handleChange = (review) => {
     if (review && review.slug) {
@@ -36,13 +39,13 @@ export default function SearchBox({ reviews }) {
           <span className="block px-2 truncate w-full">No results found</span>
         ) : (
           fetchedReviews.map((review) => (
-            <Combobox.Option key={review.slug} value={review}>
+            <ComboboxOption key={review.slug} value={review}>
               {({ active }) => (
                 <span className={`block px-2 truncate w-full ${active ? 'bg-orange-100' : ''}`}>
                   {review.title}
                 </span>
               )}
-            </Combobox.Option>
+            </ComboboxOption>
           ))
         )}
       </Combobox.Options>

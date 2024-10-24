@@ -2,6 +2,8 @@
 //import matter from 'gray-matter';
 import { marked } from 'marked';
 import qs from 'qs';
+//lib/reviews.js
+import 'server-only';
 const CMS_URL = 'http://localhost:1337';
 export const CACHE_TAG_REVIEWS = 'reviews';
 //lib/reviewes.js
