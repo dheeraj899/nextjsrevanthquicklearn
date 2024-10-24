@@ -1,45 +1,36 @@
 'use client';
 
-import { Combobox, ComboboxOption } from '@headlessui/react';
+import { Combobox } from '@headlessui/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useDebounce } from 'use-debounce';
 
 export default function SearchBox() {
-  const [query, setQuery] = useState('');
-  const [fetchedReviews, setFetchedReviews] = useState([]);
   const router = useRouter();
+  const [query, setQuery] = useState('');
+  const [debouncedQuery] = useDebounce(query, 300);
+  const [reviews, setReviews] = useState([]);
 
+  // Effect to fetch reviews based on debounced query
   useEffect(() => {
-    const controller = new AbortController(); // Step 1: Initialize AbortController
-
-    if (query.length > 1) {
+    if (debouncedQuery.length > 1) {
+      const controller = new AbortController();
       (async () => {
-        const url = `/api/search?query=${encodeURIComponent(query)}`;
-        try {
-          const response = await fetch(url, { signal: controller.signal }); // Step 2: Configure Fetch with Signal
-          const reviews = await response.json();
-          setFetchedReviews(reviews); // Update state with fetched reviews
-        } catch (error) {
-          // Handle the abort error
-          if (error.name === 'AbortError') {
-            console.log('Fetch aborted:', error.message);
-          } else {
-            console.error('Fetch failed:', error);
-          }
-        }
+        const url = '/api/search?query=' + encodeURIComponent(debouncedQuery);
+        const response = await fetch(url, { signal: controller.signal });
+        const reviews = await response.json();
+        setReviews(reviews);
       })();
-
-      return () => {
-        controller.abort(); // Step 3: Cleanup function to abort previous request
-      };
+      return () => controller.abort();
     } else {
-      setFetchedReviews([]); // Clear fetched reviews if query is too short
+      setReviews([]);
     }
-  }, [query]);
+  }, [debouncedQuery]);
 
+  // Define handleChange function
   const handleChange = (review) => {
     if (review && review.slug) {
-      router.push(`/reviews/${review.slug}`);
+      router.push(`/reviews/${review.slug}`); // Navigate to the selected review
     }
   };
 
@@ -52,17 +43,17 @@ export default function SearchBox() {
         className="border px-2 py-1 rounded w-full"
       />
       <Combobox.Options className="absolute bg-white py-1 w-full">
-        {fetchedReviews.length === 0 ? (
+        {reviews.length === 0 ? (
           <span className="block px-2 truncate w-full">No results found</span>
         ) : (
-          fetchedReviews.map((review) => (
-            <ComboboxOption key={review.slug} value={review}>
+          reviews.map((review) => (
+            <Combobox.Option key={review.slug} value={review}>
               {({ active }) => (
                 <span className={`block px-2 truncate w-full ${active ? 'bg-orange-100' : ''}`}>
                   {review.title}
                 </span>
               )}
-            </ComboboxOption>
+            </Combobox.Option>
           ))
         )}
       </Combobox.Options>
