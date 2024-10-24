@@ -1,6 +1,8 @@
 import { marked } from 'marked';
 import qs from 'qs';
 
+export const CACHE_TAG_REVIEWS = 'reviews';
+
 const CMS_URL = 'http://localhost:1337';
 
 export async function getReview(slug) {
@@ -10,6 +12,9 @@ export async function getReview(slug) {
     populate: { image: { fields: ['url'] } },
     pagination: { pageSize: 1, withCount: false },
   });
+  if (data.length === 0) {
+    return null;
+  }
   const item = data[0];
   return {
     ...toReview(item),
@@ -17,14 +22,17 @@ export async function getReview(slug) {
   };
 }
 
-export async function getReviews(pageSize) {
-  const { data } = await fetchReviews({
+export async function getReviews(pageSize, page) {
+  const { data, meta } = await fetchReviews({
     fields: ['slug', 'title', 'subtitle', 'publishedAt'],
     populate: { image: { fields: ['url'] } },
     sort: ['publishedAt:desc'],
-    pagination: { pageSize },
+    pagination: { pageSize, page },
   });
-  return data.map(toReview);
+  return {
+    pageCount: meta.pagination.pageCount,
+    reviews: data.map(toReview),
+  };
 }
 
 export async function getSlugs() {
@@ -40,7 +48,11 @@ async function fetchReviews(parameters) {
   const url = `${CMS_URL}/api/reviews?`
     + qs.stringify(parameters, { encodeValuesOnly: true });
   // console.log('[fetchReviews]:', url);
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    next: {
+      tags: [CACHE_TAG_REVIEWS],
+    },
+  });
   if (!response.ok) {
     throw new Error(`CMS returned ${response.status} for ${url}`);
   }
@@ -57,4 +69,3 @@ function toReview(item) {
     image: CMS_URL + attributes.image.data.attributes.url,
   };
 }
-//kfkrekf

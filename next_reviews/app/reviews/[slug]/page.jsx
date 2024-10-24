@@ -1,12 +1,15 @@
-import { getReview,getSlugs } from '@/lib/reviews'; // Adjust the path based on your structure
 import Image from 'next/image';
-import ShareButtons from '@/components/ShareLinkButton';
 import { notFound } from 'next/navigation';
-export const dynamic = 'force-dynamic';
-export const revalidate = 0; // This line is often assumed to make pages dynamic, but it's the 'force-dynamic' setting that does so.
+import Heading from '@/components/Heading';
+import ShareLinkButton from '@/components/ShareLinkButton';
+import { getReview, getSlugs } from '@/lib/reviews';
 
+export async function generateStaticParams() {
+  const slugs = await getSlugs();
+  // console.log('[ReviewPage] generateStaticParams:', slugs);
+  return slugs.map((slug) => ({ slug }));
+}
 
-// Generate metadata dynamically based on review data
 export async function generateMetadata({ params: { slug } }) {
   const review = await getReview(slug);
   if (!review) {
@@ -17,32 +20,28 @@ export async function generateMetadata({ params: { slug } }) {
   };
 }
 
-export default async function Page({ params }) {
-  const { slug } = params; // Extract slug from the URL
-  const review = await getReview(slug); // Fetch review based on slug
-  //slug page
-  console.log('[ReviewPage] rendering:', slug);
+export default async function ReviewPage({ params: { slug } }) {
+  console.log('[ReviewPage] rendering', slug);
+  const review = await getReview(slug);
   if (!review) {
     notFound();
   }
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">{review.title}</h1>
-      <Image
-        src={review.image} // This should point to the correct image path in 'public/images'
-        alt={review.title}
-        width={640}
-        height={360}
+    <>
+      <Heading>{review.title}</Heading>
+      <p className="font-semibold pb-3">
+        {review.subtitle}
+      </p>
+      <div className="flex gap-3 items-baseline">
+        <p className="italic pb-2">{review.date}</p>
+        <ShareLinkButton />
+      </div>
+      <Image src={review.image} alt="" priority
+        width="640" height="360" className="mb-2 rounded"
       />
-      <p className="text-gray-600">{review.date}</p>
-      <div className="markdown-content" dangerouslySetInnerHTML={{ __html: review.body }} />
-      <ShareButtons/>
-      
-    </div>
+      <article dangerouslySetInnerHTML={{ __html: review.body }}
+        className="max-w-screen-sm prose prose-slate"
+      />
+    </>
   );
-}
-
-export async function generateStaticParams() {
-  const slugs = await getSlugs();
-  return slugs.map((slug) => ({ slug }));
 }
