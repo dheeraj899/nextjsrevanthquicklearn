@@ -6,20 +6,32 @@ import { useRouter } from 'next/navigation';
 
 export default function SearchBox() {
   const [query, setQuery] = useState('');
-  const [fetchedReviews, setFetchedReviews] = useState([]); // Renamed state here
+  const [fetchedReviews, setFetchedReviews] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
+    const controller = new AbortController(); // Step 1: Initialize AbortController
+
     if (query.length > 1) {
       (async () => {
+        const url = `/api/search?query=${encodeURIComponent(query)}`;
         try {
-          const response = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
+          const response = await fetch(url, { signal: controller.signal }); // Step 2: Configure Fetch with Signal
           const reviews = await response.json();
-          setFetchedReviews(reviews); // Correctly updated state here
+          setFetchedReviews(reviews); // Update state with fetched reviews
         } catch (error) {
-          console.error('Failed to fetch reviews:', error);
+          // Handle the abort error
+          if (error.name === 'AbortError') {
+            console.log('Fetch aborted:', error.message);
+          } else {
+            console.error('Fetch failed:', error);
+          }
         }
       })();
+
+      return () => {
+        controller.abort(); // Step 3: Cleanup function to abort previous request
+      };
     } else {
       setFetchedReviews([]); // Clear fetched reviews if query is too short
     }
