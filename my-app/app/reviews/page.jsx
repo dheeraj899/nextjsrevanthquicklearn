@@ -30,6 +30,12 @@ export default async function ReviewsPage({ searchParams }) {
   return (
     <>
       <Heading>Reviews</Heading>
+      <PaginationBar 
+        href="/reviews" 
+        page={pagination.page} 
+        pageCount={pagination.pageCount} 
+      />
+      <SearchBox />
 
       <ul className="flex flex-row flex-wrap gap-3">
         {reviews.map((review, index) => (
@@ -53,12 +59,6 @@ export default async function ReviewsPage({ searchParams }) {
           </li>
         ))}
       </ul>
-      <PaginationBar 
-        href="/reviews" 
-        page={pagination.page} 
-        pageCount={pagination.pageCount} 
-      />
-      <SearchBox />
     </>
   );
 }
