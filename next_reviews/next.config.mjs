@@ -1,14 +1,18 @@
 import path from 'path';
+const toRemotePattern = (urlString) => {
+  const url = new URL(urlString);
+  return {
+    protocol: url.protocol.replace(':', ''), // Remove the colon
+    hostname: url.hostname,
+    port: url.port,
+    pathname: url.pathname,
+  };
+};
 const nextConfig = {
-  //output: 'export',
+  // output: 'export',
   images: {
     remotePatterns: [
-      {
-        protocol: 'http',  // Use 'https' in production
-        hostname: 'localhost',
-        port: '1337',      // Port used by your image server, e.g., Strapi
-        pathname: '/uploads/**',
-      },
+      toRemotePattern(process.env.CMS_IMAGE_PATTERN || 'http://localhost:1337/uploads/**'), // Fallback to a default value
     ],
   },
   webpack: (config) => {
