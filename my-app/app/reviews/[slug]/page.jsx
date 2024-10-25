@@ -3,6 +3,10 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import Heading from '@/components/Heading';
 import { ShareButtons } from '@/components/ShareLinkButton';
+// app/reviews/[slug]/page.jsx
+import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline';
+import CommentForm from '@/components/CommentForm';
+import CommentList from '@/components/CommentList';
 // In your page configuration
 export const dynamicParams = true;
 export const dynamic = 'force-dynamic';
@@ -42,6 +46,14 @@ export default async function Page({ params }) {
     </div>
     <Image src={review.image} alt={review.title} priority width="640" height="360" className="mb-2 rounded" />
     <article dangerouslySetInnerHTML={{ __html: review.body }} className="prose prose-slate max-w-screen-sm" />
+    <section className="border-dashed border-t max-w-screen-sm mt-3 py-3">
+    <h2 className="font-bold flex gap-2 items-center text-xl">
+      <ChatBubbleBottomCenterTextIcon className="h-6 w-6" />
+      Comments
+    </h2>
+    <CommentForm title={review.title} />
+    <CommentList />
+    </section>
     <ShareButtons />
   </>
 );
