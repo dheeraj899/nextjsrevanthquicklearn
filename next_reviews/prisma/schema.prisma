@@ -9,3 +9,12 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+// File: /path/to/your/project/prisma/schema.prisma
+
+model Comment {
+  id       String   @id @default(uuid())
+  slug     String   // same as Review.slug in Strapi
+  user     String
+  message  String
+  postedAt DateTime @default(now())
+}
