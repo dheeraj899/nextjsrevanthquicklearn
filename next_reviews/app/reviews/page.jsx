@@ -5,6 +5,7 @@ import Image from 'next/image';
 import PaginationBar from '@/components/PaginationBar';
 import SearchBox from '@/components/SearchBox';
 
+
 // In your page configuration
 
 export const dynamicParams = true;
