@@ -2,8 +2,15 @@
 
 import { PrismaClient } from '@prisma/client';
 
-// Initialize Prisma Client
-export const db = new PrismaClient({
-  // Uncomment below to log queries for debugging
-  // log: [{ emit: 'stdout', level: 'query' }],
-});
+export const db = createPrismaClient();
+
+/** @returns {PrismaClient} */
+function createPrismaClient() {
+  if (!globalThis.prismaClient) {
+    globalThis.prismaClient = new PrismaClient({
+      // Uncomment below to log queries for debugging
+      // log: [{ emit: 'stdout', level: 'query' }],
+    });
+  }
+  return globalThis.prismaClient;
+}
