@@ -1,4 +1,5 @@
 // components/CommentForm.jsx
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createComment } from '@/lib/comments';
 
@@ -11,6 +12,7 @@ export default function CommentForm({ slug, title }) {
       message: formData.get('message'),
     });
     console.log('created:', comment);
+    revalidatePath(`/reviews/${slug}`);
     redirect(`/reviews/${slug}`);
   }
 
