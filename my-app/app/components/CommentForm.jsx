@@ -2,25 +2,13 @@
 
 'use client';
 
-import { useState } from 'react';
+//import { useState } from 'react';
+import { useFormState } from '@/lib/hooks';
 import { createCommentAction } from '@/reviews/actions';
 
 export default function CommentForm({ slug, title }) {
-  const [state, setState] = useState({ loading: false, error: null });
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setState({ loading: true, error: null });
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const result = await createCommentAction(formData);
-    if (result?.isError) {
-      setState({ loading: false, error: result });
-    } else {
-      form.reset();
-      setState({ loading: false, error: null });
-    }
-  };
+  //const [state, setState] = useState({ loading: false, error: null });
+  const [state, handleSubmit] = useFormState(createCommentAction);
 
   return (
     <form onSubmit={handleSubmit}
@@ -52,7 +40,7 @@ export default function CommentForm({ slug, title }) {
         className="bg-orange-800 rounded px-2 py-1 self-center
                    text-slate-50 w-32 hover:bg-orange-700
                    disabled:bg-slate-500 disabled:cursor-not-allowed">
-        Submit
+        {state.loading ? 'Submitting...' : 'Submit'}
       </button>
     </form>
   );
