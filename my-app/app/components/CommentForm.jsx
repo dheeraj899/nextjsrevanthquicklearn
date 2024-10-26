@@ -1,55 +1,38 @@
+// components/CommentForm.jsx
+
 'use client';
-import { useForm } from 'react-hook-form';
-import { createComment } from '@/lib/comments';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+
+import { createCommentAction } from '@/reviews/actions';
 
 export default function CommentForm({ slug, title }) {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-
-  async function onSubmit(data) {
-    if (!data.user) {
-      return { isError: true, message: 'Name field is required' };
-    }
-    const comment = await createComment({
-      slug,
-      user: data.user,
-      message: data.message,
-    });
-
-    console.log('created:', comment);
-    revalidatePath(`/reviews/${slug}`);
-    redirect(`/reviews/${slug}`);
-  }
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="border bg-white flex flex-col gap-2 mt-3 px-3 py-3 rounded">
+    <form action={createCommentAction}
+      className="border bg-white flex flex-col gap-2 mt-3 px-3 py-3 rounded">
       <p className="pb-1">
         Already played <strong>{title}</strong>? Have your say!
       </p>
+      <input type="hidden" name="slug" value={slug} />
       <div className="flex">
         <label htmlFor="userField" className="shrink-0 w-32">
           Your name
         </label>
-        <input
-          id="userField"
-          {...register('user', { required: true, maxLength: 50 })}
+        <input id="userField" name="user" required maxLength={50}
           className="border px-2 py-1 rounded w-48"
         />
-        {errors.user && <span className="text-red-500">Name is required</span>}
       </div>
       <div className="flex">
         <label htmlFor="messageField" className="shrink-0 w-32">
           Your comment
         </label>
-        <textarea
-          id="messageField"
-          {...register('message', { required: true, maxLength: 500 })}
+        <textarea id="messageField" name="message" required maxLength={500}
           className="border px-2 py-1 rounded w-full"
         />
-        {errors.message && <span className="text-red-500">Comment is required</span>}
       </div>
-      <button type="submit" className="bg-orange-800 rounded px-2 py-1 self-center">Submit</button>
+      <button type="submit"
+        className="bg-orange-800 rounded px-2 py-1 self-center
+                   text-slate-50 w-32 hover:bg-orange-700">
+        Submit
+      </button>
     </form>
   );
 }
