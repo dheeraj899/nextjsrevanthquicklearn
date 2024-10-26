@@ -1,34 +1,22 @@
 // components/CommentForm.jsx
-import { redirect } from 'next/navigation';
-import { createComment } from '@/lib/comments';
 
-import { revalidatePath } from 'next/cache';
+'use client';
+
+import { createCommentAction } from '@/reviews/actions';
 
 export default function CommentForm({ slug, title }) {
-  async function action(formData) {
-    'use server';
-    const comment = await createComment({
-      slug,
-      user: formData.get('user'),
-      message: formData.get('message'),
-    });
-    console.log('created:', comment);
-    revalidatePath(`/reviews/${slug}`);
-    redirect(`/reviews/${slug}`);
-    
-  }
-
   return (
-    <form action={action}
+    <form action={createCommentAction}
       className="border bg-white flex flex-col gap-2 mt-3 px-3 py-3 rounded">
       <p className="pb-1">
         Already played <strong>{title}</strong>? Have your say!
       </p>
+      <input type="hidden" name="slug" value={slug} />
       <div className="flex">
         <label htmlFor="userField" className="shrink-0 w-32">
           Your name
         </label>
-        <input id="userField" name="user"
+        <input id="userField" name="user" required maxLength={50}
           className="border px-2 py-1 rounded w-48"
         />
       </div>
@@ -36,7 +24,7 @@ export default function CommentForm({ slug, title }) {
         <label htmlFor="messageField" className="shrink-0 w-32">
           Your comment
         </label>
-        <textarea id="messageField" name="message"
+        <textarea id="messageField" name="message" required maxLength={500}
           className="border px-2 py-1 rounded w-full"
         />
       </div>
@@ -48,4 +36,3 @@ export default function CommentForm({ slug, title }) {
     </form>
   );
 }
-//DELETE FROM Comment WHERE user = 'Dan';
