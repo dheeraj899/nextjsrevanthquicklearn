@@ -1,17 +1,13 @@
-// components/CommentForm.jsx
-//"use client";
-
+'use client';
 import { useForm } from 'react-hook-form';
+import { createComment } from '@/lib/comments';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { createComment } from '@/lib/comments';
 
 export default function CommentForm({ slug, title }) {
-  // Initialize useForm with validation
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   async function onSubmit(data) {
-    'use server';
     if (!data.user) {
       return { isError: true, message: 'Name field is required' };
     }
