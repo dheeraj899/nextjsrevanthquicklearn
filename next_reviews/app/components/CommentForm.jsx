@@ -2,6 +2,8 @@
 import { redirect } from 'next/navigation';
 import { createComment } from '@/lib/comments';
 
+import { revalidatePath } from 'next/cache';
+
 export default function CommentForm({ slug, title }) {
   async function action(formData) {
     'use server';
@@ -11,7 +13,9 @@ export default function CommentForm({ slug, title }) {
       message: formData.get('message'),
     });
     console.log('created:', comment);
+    revalidatePath(`/reviews/${slug}`);
     redirect(`/reviews/${slug}`);
+    
   }
 
   return (
@@ -44,3 +48,4 @@ export default function CommentForm({ slug, title }) {
     </form>
   );
 }
+//DELETE FROM Comment WHERE user = 'Dan';
