@@ -6,6 +6,7 @@ import Heading from '@/components/Heading';
 import { ShareButtons } from '@/components/ShareLinkButton';
 // app/reviews/[slug]/page.jsx
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline';
+import CommentListSkeleton from '@/components/CommentListSkeleton';
 import CommentForm from '@/components/CommentForm';
 import CommentList from '@/components/CommentList';
 // In your page configuration
@@ -53,7 +54,7 @@ export default async function Page({ params }) {
       Comments
     </h2>
     <CommentForm slug={slug} title={review.title} />
-    <Suspense fallback={<p>Loading...</p>}>
+    <Suspense fallback={<CommentListSkeleton />}>
       <CommentList slug={slug} />
     </Suspense>
     </section>
