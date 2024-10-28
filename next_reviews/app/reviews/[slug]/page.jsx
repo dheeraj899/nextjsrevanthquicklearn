@@ -27,6 +27,7 @@ export default async function Page({ params }) {
   const review = await getReview(slug); // Fetch review based on slug
   //slug page
   console.log('[ReviewPage] rendering:', slug);
+  await new Promise((resolve) => setTimeout(resolve, 3000));
   if (!review) {
     notFound();
   }
