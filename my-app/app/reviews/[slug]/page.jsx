@@ -1,5 +1,6 @@
 import { getReview, getSlugs } from '@/lib/reviews';// Adjust the path based on your structure
 import Image from 'next/image';
+import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import Heading from '@/components/Heading';
 import { ShareButtons } from '@/components/ShareLinkButton';
@@ -52,7 +53,9 @@ export default async function Page({ params }) {
       Comments
     </h2>
     <CommentForm slug={slug} title={review.title} />
-    <CommentList slug={slug} />
+    <Suspense fallback={<p>Loading...</p>}>
+      <CommentList slug={slug} />
+    </Suspense>
     </section>
     <ShareButtons />
   </>
