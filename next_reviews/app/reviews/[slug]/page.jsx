@@ -7,6 +7,7 @@ export const revalidate = 0; // This line is often assumed to make pages dynamic
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline';
 import CommentForm from '@/components/CommentForm';
 import CommentList from '@/components/CommentList';
+import { Suspense } from 'react';
 
 // Generate metadata dynamically based on review data
 export async function generateMetadata({ params: { slug } }) {
@@ -47,6 +48,7 @@ export default async function Page({ params }) {
       
       <CommentForm slug={slug} title={review.title} />
       <CommentList slug={slug} />
+      <Suspense fallback={<p>Loading...</p>}></Suspense>
      </section>
       <ShareButtons/>
       

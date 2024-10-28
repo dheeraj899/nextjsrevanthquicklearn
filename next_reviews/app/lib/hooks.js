@@ -4,7 +4,7 @@ import { useState } from 'react';
 export function useFormState(action) {
   const [state, setState] = useState({ loading: false, error: null });
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault();   
     setState({ loading: true, error: null });
     const form = event.currentTarget;
     const formData = new FormData(form);
