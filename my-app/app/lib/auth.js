@@ -7,11 +7,13 @@ const JWT_COOKIE = 'sessionToken';
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 const JWT_DURATION = 14 * 24 * 60 * 60 * 1000; // 2 weeks
 
+// File path: lib/auth.js
+
 export async function getUserFromSession() {
-  const sessionTokenCookie = cookies().get(JWT_COOKIE);
-  if (sessionTokenCookie) {
+  const sessionToken = cookies().get(JWT_COOKIE)?.value;
+  if (sessionToken) {
     try {
-      const { payload } = await jwtVerify(sessionTokenCookie.value, JWT_SECRET);
+      const { payload } = await jwtVerify(sessionToken, JWT_SECRET);
       return payload;
     } catch (error) {
       console.warn('Invalid JWT', error);
@@ -29,4 +31,9 @@ export async function setSessionCookie(user) {
       httpOnly: true,
       sameSite: 'lax',
 });
+}
+// File path: lib/auth.js
+
+export function deleteSessionCookie() {
+  cookies().delete(JWT_COOKIE);
 }
