@@ -27,12 +27,12 @@ export async function createCommentAction(formData) {
 }
 
 function validate(data) {
-  if (!data.user) {
-    return 'Name field is required';
+  if (!data.message) {
+    return 'comment field is requried';
   }
-  if (data.user.length > 50) {
-    return 'Name field cannot be longer than 50 characters';
-  }
+  //if (data.user.length > 50) {
+    //return 'Name field cannot be longer than 50 characters';
+  //
   if (!data.message) {
     return 'Comment field is required';
   }
