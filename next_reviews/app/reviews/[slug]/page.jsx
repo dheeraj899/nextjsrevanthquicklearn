@@ -9,6 +9,8 @@ import { Suspense } from 'react';
 import CommentListSkeleton from '@/components/CommentListSkeleton';
 import CommentForm from '@/components/CommentForm';
 import CommentList from '@/components/CommentList';
+import { getUserFromSession } from '@/lib/auth';  
+import Link from 'next/link';
 
 
 // Generate metadata dynamically based on review data
@@ -23,6 +25,7 @@ export async function generateMetadata({ params: { slug } }) {
 }
 
 export default async function Page({ params }) {
+  const user = await getUserFromSession();
   const { slug } = params; // Extract slug from the URL
   const review = await getReview(slug); // Fetch review based on slug
   //slug page
@@ -48,8 +51,17 @@ export default async function Page({ params }) {
               <ChatBubbleBottomCenterTextIcon className="h-6 w-6" />
               Comments
       </h2>
+      {user ? (
+          <CommentForm slug={slug} title={review.title} userName={user.name} />
+        ) : (
+          <div className="border bg-white mt-3 px-3 py-3 rounded">
+            <Link href="/sign-in" className="text-orange-800 hover:underline">
+              Sign in
+            </Link> to have your say!
+          </div>
+        )}
       
-      <CommentForm slug={slug} title={review.title} />
+  
       <CommentList slug={slug} />
       <Suspense fallback={<CommentListSkeleton />}>
       </Suspense>
