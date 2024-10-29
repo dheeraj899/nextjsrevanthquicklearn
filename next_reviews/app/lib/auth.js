@@ -25,9 +25,9 @@ export async function getUserFromSession() {
 }
 // File path: lib/auth.js
 
-export async function setSessionCookie(user) {
+export async function setSessionCookie({ id, email, name }) {
     const expirationTime = new Date(Date.now() + JWT_DURATION);
-    const sessionToken = await new SignJWT(user)
+    const sessionToken = await new SignJWT({ id, email, name })
     //const expirationTime = new Date(Date.now() + JWT_DURATION);
     .setProtectedHeader({ alg: 'HS256' })
     .setExpirationTime(expirationTime)
