@@ -22,7 +22,7 @@ export async function getUserFromSession() {
 }
 export async function setSessionCookie(user) {
   const expirationTime = new Date(Date.now() + JWT_DURATION);
-  const sessionToken = await new SignJWT(user)
+  const sessionToken = await new SignJWT({ id, email, name })
     .setProtectedHeader({ alg: 'HS256' })
     .setExpirationTime(expirationTime)
     .sign(JWT_SECRET);
