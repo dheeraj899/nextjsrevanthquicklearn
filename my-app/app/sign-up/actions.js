@@ -1,5 +1,11 @@
 // File path: app/sign-up/actions.js
 
+'use server';
+
+import { redirect } from 'next/navigation';
+import { setSessionCookie } from '@/lib/auth';
+import { createUser } from '@/lib/users';
+
 export async function signUpAction(formData) {
   const data = {
     email: formData.get('email'),
