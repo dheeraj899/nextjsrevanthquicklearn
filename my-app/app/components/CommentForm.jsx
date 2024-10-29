@@ -6,8 +6,9 @@
 import { useFormState } from '@/lib/hooks';
 import { createCommentAction } from '@/reviews/actions';
 
-export default function CommentForm({ slug, title }) {
-  //const [state, setState] = useState({ loading: false, error: null });
+// File path: components/CommentForm.jsx
+
+export default function CommentForm({ slug, title, userName }) {
   const [state, handleSubmit] = useFormState(createCommentAction);
 
   return (
@@ -18,12 +19,10 @@ export default function CommentForm({ slug, title }) {
       </p>
       <input type="hidden" name="slug" value={slug} />
       <div className="flex">
-        <label htmlFor="userField" className="shrink-0 w-32">
+        <label className="shrink-0 w-32">
           Your name
         </label>
-        <input id="userField" name="user"
-          className="border px-2 py-1 rounded w-48"
-        />
+        <span>{userName}</span>
       </div>
       <div className="flex">
         <label htmlFor="messageField" className="shrink-0 w-32">
@@ -40,7 +39,7 @@ export default function CommentForm({ slug, title }) {
         className="bg-orange-800 rounded px-2 py-1 self-center
                    text-slate-50 w-32 hover:bg-orange-700
                    disabled:bg-slate-500 disabled:cursor-not-allowed">
-        {state.loading ? 'Submitting...' : 'Submit'}
+        Submit
       </button>
     </form>
   );

@@ -1,11 +1,13 @@
 import { getReview, getSlugs } from '@/lib/reviews';// Adjust the path based on your structure
 import Image from 'next/image';
+import Link from 'next/link';
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import Heading from '@/components/Heading';
 import { ShareButtons } from '@/components/ShareLinkButton';
 // app/reviews/[slug]/page.jsx
 import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline';
+import { getUserFromSession } from '@/lib/auth';
 import CommentListSkeleton from '@/components/CommentListSkeleton';
 import CommentForm from '@/components/CommentForm';
 import CommentList from '@/components/CommentList';
@@ -29,6 +31,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Page({ params }) {
+  const user = await getUserFromSession();
   const { slug } = params; // Extract slug from the URL
   const review = await getReview(slug); // Fetch review based on slug
   console.log('[ReviewPage] rendering:', slug);
@@ -55,7 +58,15 @@ export default async function Page({ params }) {
       <ChatBubbleBottomCenterTextIcon className="h-6 w-6" />
       Comments
     </h2>
-    <CommentForm slug={slug} title={review.title} />
+    {user ? (
+      <CommentForm slug={slug} title={review.title} userName={user.name} />
+    ) : (
+      <div className="border bg-white mt-3 px-3 py-3 rounded">
+        <Link href="/sign-in" className="text-orange-800 hover:underline">
+          Sign in
+        </Link> to have your say!
+      </div>
+    )}
     <Suspense fallback={<CommentListSkeleton />}>
       <CommentList slug={slug} />
     </Suspense>
