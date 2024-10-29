@@ -13,16 +13,17 @@ datasource db {
 
 model Comment {
   id       String   @id @default(uuid())
-  slug     String   // same as Review.slug in Strapi
-  user     String
+  slug     String
+  userId   String
   message  String
   postedAt DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id])
 }
-// File path: prisma/schema.prisma
 
 model User {
   id           String   @id @default(uuid())
   email        String   @unique
   name         String
   passwordHash String
+  comments     Comment[]
 }
