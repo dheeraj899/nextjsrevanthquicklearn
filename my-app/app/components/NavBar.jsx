@@ -1,22 +1,8 @@
 // File path: components/NavBar.jsx
 
-import { jwtVerify } from 'jose';
-import { cookies } from 'next/headers';
+import { getUserFromSession } from '@/lib/auth';
 import NavLink from './NavLink';
 
-const JWT_SECRET = new TextEncoder().encode('some-random-string');
-
-async function getUserFromSession() {
-  const sessionTokenCookie = cookies().get('sessionToken');
-  if (sessionTokenCookie) {
-    try {
-      const { payload } = await jwtVerify(sessionTokenCookie.value, JWT_SECRET);
-      return payload;
-    } catch (error) {
-      console.warn('Invalid JWT', error);
-    }
-  }
-}
 export default async function NavBar() {
   const user = await getUserFromSession();
   return (
