@@ -1,9 +1,9 @@
 // File: /path/to/your/project/lib/comments.js
 
 import { db } from './db';
-export async function createComment({ slug, user, message }) {
+export async function createComment({ slug, userId, message }) {
   return await db.comment.create({
-    data: { slug, user, message },
+    data: { slug, userId, message },
   });
 }
 

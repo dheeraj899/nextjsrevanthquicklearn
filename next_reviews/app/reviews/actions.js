@@ -5,11 +5,15 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createComment } from '@/lib/comments';
-
+import { getUserFromSession } from '@/lib/auth';
 export async function createCommentAction(formData) {
+  const user = await getUserFromSession();
+  if (!user) {
+    throw new Error('Unauthorized');
+  }
   const data = {
     slug: formData.get('slug'),
-    user: formData.get('user'),
+    userId: user.id,
     message: formData.get('message'),
   };
   const error = validate(data);
