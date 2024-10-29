@@ -1,9 +1,12 @@
 // File path: components/NavBar.jsx
+
 import { getUserFromSession } from '@/lib/auth';
 import NavLink from './NavLink';
 import SignOutButton from './SignOutButton';
+
 export default async function NavBar() {
   const user = await getUserFromSession();
+  console.log('[NavBar] user:', user);
   return (
     <nav>
       <ul className="flex gap-2">
@@ -23,18 +26,15 @@ export default async function NavBar() {
           </NavLink>
         </li>
         {user ? (
-          <>
-            <li>{user.email}</li>
-            <li>
-              <SignOutButton /> {/* The SignOut button is rendered here */}
-            </li>
-          </>
-        ) : (
           <li>
-            <NavLink href="/sign-in">
-              Sign in
-            </NavLink>
+            <SignOutButton />
           </li>
+        ) : (
+        <li>
+          <NavLink href="/sign-in">
+            Sign in
+          </NavLink>
+        </li>
         )}
       </ul>
     </nav>
